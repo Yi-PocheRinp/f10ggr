@@ -10,6 +10,10 @@
 // 日本語プログラム言語「なでしこ」が必要です。
 // http://nadesi.com でダウンロードしてください。
 
+// Version 1.20 (2026/02/17)
+// -検索エンジンにDuckDuckGo、Wikipedia(日本語)、YouTube、GitHubを追加
+// -検索URLをHTTPSに更新
+//
 // Version 1.12 (2015/01/05)
 // -なでしこのバージョンを変更(1.544→1.547)
 // -スタートアップ登録のダイアログを表示しないように変更
@@ -35,7 +39,7 @@ ExithotKeyValue=『Shift+F10』。
 browserValue=0。
 
 //定数
-Version=(『1.12』)。//バージョン番号
+Version=(『1.20』)。//バージョン番号
 WebSiteUrl=(『http://7ka.org/software/f10ggr/』)。
 ミューキーワード=(『F10貼り付けずにググる』)。//このキーワードが被ったら多重起動となる
 
@@ -193,11 +197,11 @@ SearchEngineSelectComboBoxとはコンボ。
 これについて。
 　親部品はSettingForm。
 　編集はオフ。
-　アイテムは(『Google』&改行&『Yahoo!Japan』&改行&『Bing』&改行&『goo』)。
+　アイテムは(『Google』&改行&『Yahoo!Japan』&改行&『Bing』&改行&『goo』&改行&『DuckDuckGo』&改行&『Wikipedia(日本語)』&改行&『YouTube』&改行&『GitHub』)。
 　値はsearchEngineValue。
 　X=100。
 　Y=150。
-　W=100。
+　W=150。
 　リスト閉じた時は～
 　　searchEngineValue=SearchEngineSelectComboBoxの値。
 
@@ -229,6 +233,7 @@ VersionInfoLabelとはラベル。
 　Y=230。
 　W=100。
 　テキストは『F10貼り付けずにググる  Version 』 & Version。
+　W=280。
 
 // リンクラベルもどき
 CopyrightLinkLabelとはラベル。
@@ -306,7 +311,7 @@ ExithotKeyValueに『HTKEY終了処理』をホットキー登録。
 　hotKeyValue1=7。 // ググる際のホットキー(1番目)
 　hotKeyValue2=0。 // ホットキー(2番目)
 　hotKeyValue3=0。 // ホットキー(3番目)
-　searchEngineValue=0。 //使う検索エンジン(0:Google 1:Yahoo 2:Bing 3:goo)
+　searchEngineValue=0。 //使う検索エンジン(0:Google 1:Yahoo 2:Bing 3:goo 4:DuckDuckGo 5:Wikipedia 6:YouTube 7:GitHub)
 　urlOpenFlag=1。 //URLなら直接ブラウザで開くか(0:オフ 1:オン)
 　shift10CloseFlag=1。 //ShiftF10で終了するかどうか(0:オフ 1:オン)
 　autoStartFlag=0。 //スタートアップに登録するか(0:オフ 1:オン)
@@ -352,11 +357,15 @@ ExithotKeyValueに『HTKEY終了処理』をホットキー登録。
 　　もし、(urlOpenFlag=1)AND(クリップボードが「*://*.*」に一致)ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" 』&(クリップボード))を起動。
 　　違えば、searchEngineValueで条件分岐。
 　　　// ブラウザのPathを読み込み、指定された検索エンジンで検索する。
-　　　// 0 Google | 1 Yahoo Japan | 2 Bing | 3 goo 
-　　　『0』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" http://www.google.co.jp/search?hl=ja&q=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
-　　　『1』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" http://search.yahoo.co.jp/search?p=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
-　　　『2』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" http://www.bing.com/search?q=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
-　　　『3』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" http://search.goo.ne.jp/web.jsp?MT=&』&(クリップボードをUTF8N変換してURLエンコード)&『&mode=0&IE=UTF-8』)を起動。
+　　　// 0 Google | 1 Yahoo Japan | 2 Bing | 3 goo | 4 DuckDuckGo | 5 Wikipedia | 6 YouTube | 7 GitHub
+　　　『0』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" https://www.google.com/search?q=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『1』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" https://search.yahoo.co.jp/search?p=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『2』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" https://www.bing.com/search?q=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『3』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" https://search.goo.ne.jp/web.jsp?MT=』&(クリップボードをUTF8N変換してURLエンコード)&『&mode=0&IE=UTF-8』)を起動。
+　　　『4』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" https://duckduckgo.com/?q=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『5』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" https://ja.wikipedia.org/w/index.php?search=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『6』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" https://www.youtube.com/results?search_query=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『7』ならば、(『"』&BrowserList\(browserValue-1)&『\』&BrwoserExeList\(browserValue-1)&『" https://github.com/search?q=』&(クリップボードをUTF8N変換してURLエンコード)&『&type=repositories』)を起動。
 
 // 既定のWebブラウザを選択した際に実行する処理
 // 検索処理と同じ
@@ -365,9 +374,13 @@ ExithotKeyValueに『HTKEY終了処理』をホットキー登録。
 　違えば、
 　　searchEngineValueで条件分岐。
 　　　『0』ならば、クリップボードをググる。
-　　　『1』ならば、(『http://search.yahoo.co.jp/search?p=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
-　　　『2』ならば、(『http://www.bing.com/search?q=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
-　　　『3』ならば、(『http://search.goo.ne.jp/web.jsp?MT=』&(クリップボードをUTF8N変換してURLエンコード)&『&mode=0&IE=UTF-8』)を起動。
+　　　『1』ならば、(『https://search.yahoo.co.jp/search?p=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『2』ならば、(『https://www.bing.com/search?q=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『3』ならば、(『https://search.goo.ne.jp/web.jsp?MT=』&(クリップボードをUTF8N変換してURLエンコード)&『&mode=0&IE=UTF-8』)を起動。
+　　　『4』ならば、(『https://duckduckgo.com/?q=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『5』ならば、(『https://ja.wikipedia.org/w/index.php?search=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『6』ならば、(『https://www.youtube.com/results?search_query=』&(クリップボードをUTF8N変換してURLエンコード))を起動。
+　　　『7』ならば、(『https://github.com/search?q=』&(クリップボードをUTF8N変換してURLエンコード)&『&type=repositories』)を起動。
 
 
 // 設定をiniファイルの書き込む処理　　　　　
