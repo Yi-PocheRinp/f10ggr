@@ -10,6 +10,9 @@
 // 日本語プログラム言語「なでしこ」が必要です。
 // http://nadesi.com でダウンロードしてください。
 
+// Version 1.21 (2026/02/18)
+// -設定が巻き戻るバグを修正(ブラウザ選択リセット、設定未保存)
+//
 // Version 1.20 (2026/02/17)
 // -検索エンジンにDuckDuckGo、Wikipedia(日本語)、YouTube、GitHubを追加
 // -検索URLをHTTPSに更新
@@ -39,7 +42,7 @@ ExithotKeyValue=『Shift+F10』。
 browserValue=0。
 
 //定数
-Version=(『1.20』)。//バージョン番号
+Version=(『1.21』)。//バージョン番号
 WebSiteUrl=(『http://7ka.org/software/f10ggr/』)。
 ミューキーワード=(『F10貼り付けずにググる』)。//このキーワードが被ったら多重起動となる
 
@@ -84,8 +87,8 @@ AppPathIEでブラウザ存在確認処理。
 AppPathChromeでブラウザ存在確認処理。
 AppPathFirefoxでブラウザ存在確認処理。
 AppPathOperaでブラウザ存在確認処理。
-もし、no=1ならば、browserValue=0。
-もし、(browserValue>no)ならば、//ブラウザが2つ以上インストールされていれば、
+もし、no=0ならば、browserValue=0。//ブラウザが1つも検出されなければ既定を使う
+もし、(browserValue>no)ならば、//保存された値が検出ブラウザ数を超えていれば、
 　browserValue=0。//既定のブラウザを選択する
 　
 // 設定ウィンドウ　
@@ -262,6 +265,7 @@ ConfigEndButtonとはボタン
 　W=170
 　テキストは『設定ウィンドウを閉じる』
 　クリックした時は～
+　　設定保存処理。
 　　SettingFormを閉じる
 
 // タスクトレイをクリックした時の処理
